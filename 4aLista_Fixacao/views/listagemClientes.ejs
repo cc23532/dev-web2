@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+   <!--Meta Tags requeridas pelo bootstrap-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Listagem</title>
+    
+    <!--Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel='stylesheet' href='stylesheets/style.css' />
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+
+  <body>
+    <h1 style="margin-top: 70px;">Listagem de Clientes</h1>
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>NOME</th>
+          <th>IDADE</th>
+          <th>EMAIL</th>
+          <th>CPF</th>
+          <th>EDITAR</th>
+          <th>REMOVER</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for (cliente of clientes){ %>
+          <tr>
+            <td><%= cliente.idClie %></td>
+            <td><%= cliente.nomeClie %></td>
+            <td><%= cliente.dataNiverClie %></td>
+            <td><%= cliente.emailClie %></td>
+            <td><%= cliente.cpfClie %></td>
+            <td><a href="updateCliente/<%= cliente.idClie %>">Editar</a></td>
+            <td><a href="exclusaoCliente/<%= cliente.idClie %>">Remover</a></td>
+          </tr>
+        <% } %>   
+      </tbody>
+
+    </table>
+    <a href="/formularioInclusaoNovoCliente" class="btn btn-primary">voltar</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cliente</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Formulário de Cliente</h2>
+        <form method="post" action="/salvarEdicaoCliente">
+            <div class="form-group">
+              <label for="nome">Nome:</label>
+              <input type="text" class="form-control" id="nome" name="nome" placeholder="<%= cliente.nomeClie %>" required>
+            </div>
+            <div class="form-group">
+              <label for="cpf">CPF:</label>
+              <input type="text" class="form-control" id="cpf" name="cpf" placeholder="<%= cliente.cpfClie %>" required>
+            </div>
+            <div class="form-group">
+              <label for="data_aniversario">Data de Aniversário:</label>
+              <input type="date" class="form-control" id="data_aniversario" name="data_aniversario" placeholder="<%= cliente.dataNiverClie %>" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="<%= cliente.emailClie %>" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar Edições</button>
+          </form>
+          
+    </div>
+</body>
+</html>
