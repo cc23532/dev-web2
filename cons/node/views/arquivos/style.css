@@ -1,0 +1,28 @@
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4));
+    font-family: 'PT Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    background-image: url("./clinica.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.esqueciSenha{
+    color: antiquewhite;
+}
+
