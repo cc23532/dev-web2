@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../arquivos/styleHome.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Área do Usuário</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="user-profile">
+                    <img src="../arquivos/iconMed.png" alt="Foto de Perfil" class="profile-picture">
+                    <h4><%= nomeMedico %></h4>
+                </div>
+                <div class="menu">
+                    <div class="menu-item">
+                        <a>Consultas</a>
+                        <div class="submenu">
+                            <div class="submenu-item">
+                                <a href="/selectConsultasAtivas/<%= idMedico %>">Consultas Ativas</a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="/selectMedicoNovaConsulta/<%= idMedico %>">Agendar Consulta</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a>Dados Cadastrais</a>
+                        <div class="submenu">
+                            <div class="submenu-item">
+                                <a href="/selectMedico/<%= idMedico %>">Alterar Dados</a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="">Excluir Conta</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="content" id="content">
+                    <h2>Alterar Dados</h2>
+                    <form method="post" action="/updateDadosMedico">
+                        <div class="form-group">
+                            <label for="nome">Nome:</label>
+                            <input type="text" class="form-control" id="nome" name="nome" required value="<%= nomeMedico %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="sobrenome">Sobrenome:</label>
+                            <input type="text" class="form-control" id="sobrenome" name="sobrenome" required value="<%= sobrenomeMed %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="especialidade">Especialidade:</label>
+                            <input type="text" class="form-control" id="especialidade" name="especialidade" required value="<%= especialidade %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="crm">CRM:</label>
+                            <input type="text" class="form-control" id="crm" name="crm" required value="<%= crm %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required value="<%= email %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="idMedico">ID:</label>
+                            <input type="idMedico" class="form-control" id="idMedico" name="idMedico" required value="<%= idMedico %>" readonly>
+                        </div>
+                            <button type="submit" class="btn btn-primary ml-5">Salvar</button>
+                        </div>
+                    </form>        
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Cliente</title>
+    <title>Formulário para Médico</title>
 
-    <link rel="stylesheet" href="./arquivos/styleCadastro.css" type="text/css">
+    <link rel="stylesheet" href="./arquivos/style.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h2>Formulário de Cliente</h2>
-        <form method="post" action="/inclusaoNovoPaciente">
+        <h2>Formulário para Médico</h2>
+        <form method="post" action="/inclusaoNovoMedico">
             <div class="form-group col-md-4">
                 <label for="nome">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome" required placeholder="Digite seu nome">
@@ -21,16 +21,12 @@
                 <input type="text" class="form-control" id="sobrenome" name="sobrenome" required placeholder="Digite seu sobrenome">
             </div>
             <div class="form-group col-md-4">
-                <label for="cpf">CPF:</label>
-                <input type="text" class="form-control" id="cpf" name="cpf" required placeholder="Digite seu CPF">
+                <label for="especialidade">Especialidade:</label>
+                <input type="text" class="form-control" id="especialidade" name="especialidade" required placeholder="Digite sua especialidade">
             </div>
             <div class="form-group col-md-4">
-                <label for="telefone">Telefone:</label>
-                <input type="text" class="form-control" id="telefone" name="telefone" required placeholder="Digite seu telefone (somente números)">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="data_aniversario">Data de Aniversário:</label>
-                <input type="date" class="form-control" id="nascimento" name="nascimento" required>
+                <label for="CRM">CRM:</label>
+                <input type="text" class="form-control" id="CRM" name="CRM" required placeholder="Digite seu CRM">
             </div>
             <div class="form-group col-md-4">
                 <label for="email">Email:</label>

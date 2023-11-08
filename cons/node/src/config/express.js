@@ -1,5 +1,6 @@
 const express= require("express");
 const app= express();
+const session = require('express-session');
 
 const bodyParser= require("body-parser");
 const expressLayout= require("express-ejs-layouts");
@@ -13,6 +14,14 @@ app.use(
         extended: true,
     })
 )
+
+app.use(
+    session({
+      secret: 'BD23532',
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
 
 const rotas= require("../app/rotas/rotas");
 rotas(app);

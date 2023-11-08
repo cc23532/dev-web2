@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário para Médico</title>
+
+    <link rel="stylesheet" href="./arquivos/style.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Formulário para Médico</h2>
+        <% for (const consulta of idConsultas) { %>
+        <form method="post" action="/inclusaoNovoMedico">
+            <div class="form-group col-md-4">
+                <label for="idConsulta">idConsulta:</label>
+                <input type="text" class="form-control" id="idConsulta" name="idConsulta" required value="<%= consulta.idConsulta %>">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="idPaciente">idPaciente:</label>
+                <input type="text" class="form-control" id="idPaciente" name="idPaciente" required value="<%= consulta.idPaciente %>">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="idMedico">idMedico:</label>
+                <input type="text" class="form-control" id="idMedico" name="idMedico" required value="<%= consulta.idMedico %>">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="observacoes">Observações:</label>
+                <input type="text" class="form-control" id="observacoes" name="observacoes" required placeholder="Digite suas observações">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="dataConsulta">Data de Consulta:</label>
+                <input type="date" class="form-control" id="dataConsulta" name="dataConsulta" required value="<%= consulta.dataConsulta %>">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="horaInicio">Horário de Início:</label>
+                <input type="time" class="form-control" id="horaInicio" name="horaInicio" required value="<%= consulta.horaInicio %>">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="horaFim">Horário de Encerramento:</label>
+                <input type="time" class="form-control" id="horaFim" name="horaFim" required value="<%= consulta.horaFim %>">
+            </div>      
+            <div class="form-group">
+                <select class="form-select" id="tipoConsulta" name="tipoConsulta" aria-label="Floating label select example">
+                    <option selected><%= consulta.tipoConsulta %></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-select" id="ativo" name="ativo" aria-label="Floating label select example">
+                    <option selected><%= consulta.ativo %></option>
+                    <option value="Finalizada">Finalizada</option>
+                    <option value="Cancelada">Cancelada</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary ml-5">Salvar</button>
+            </div>
+        </form>        
+        <%= } %>
+    </div>
+</body>
+</html>

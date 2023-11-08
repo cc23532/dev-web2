@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../arquivos/styleHome.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Área do Usuário</title>
+</head>
+<body>
+        <div class="col-md-9">
+            <div class="content" id="content">
+                <h2>Listagem de Clientes</h2>
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>SEU ID</th>
+                            <th>idPaciente</th>
+                            <th>Data da Consulta</th>
+                            <th>Horário de Início</th>
+                            <th>Tipo de Consulta</th>
+                            <th>Status de Consulta</th>
+                            <th>ALTERAR</th>
+                        </tr>
+                    </thead>
+                  
+                    <tbody>
+                        <% for (const consulta of idConsultas) { %>
+                            <tr>
+                            <td><%= consulta.idMedico %></td>
+                            <td><%= consulta.idPaciente %></td>
+                            <td><%= consulta.dataConsulta %></td>
+                            <td><%= consulta.horaInicio %></td>
+                            <td><%= consulta.tipoConsulta %></td>
+                            <td><%= consulta.ativo %></td>
+                            <td><a href="/alterarStatusConsulta/<%= consulta.idConsulta %>">Alterar Status</a></td>
+                        </tr>
+                        <% } %>   
+                    </tbody>
+                  
+                </table>
+            </div>
+                    
+        </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -13,12 +13,12 @@
         <h3>Preencha com seus dados para que seu perfil seja verificado</h3>
         <form action="/updateSenha" method="post">
             <div class="form-group col-md-4">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" name="email" required value="<%= email %>">
-            </div>
-            <div class="form-group col-md-4">
                 <label for="senha">Digite a nova senha:</label>
                 <input type="password" class="form-control" id="senha" name="senha" required placeholder="Máximo de 8 caracteres">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required value="<%= email %>">
             </div>
                 <button type="submit" class="btn btn-primary ml-5">Salvar</button>
             </div>
