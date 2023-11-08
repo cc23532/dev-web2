@@ -1,0 +1,5 @@
+/formularioInclusaoNovoCliente
+
+/vitrine
+
+/updateCliente

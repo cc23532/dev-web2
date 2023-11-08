@@ -50,7 +50,7 @@ class DAO_Clientes{
           this._bd.query(sql, [idClie], (erro, results) => {
             if (erro) {
               console.log(erro);
-              return reject("Remoção de Cliente falhou");
+              return reject("Seleção de Cliente falhou");
             }
             resolve(results);
           });
