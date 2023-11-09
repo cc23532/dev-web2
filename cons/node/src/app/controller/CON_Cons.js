@@ -267,7 +267,7 @@ class CON_Cons{
                 if (consData) {
                     console.log("Abrindo página de consultas ativas...")
                     console.log(consData)
-                    res.render('./homeMedico/listConsultasAtivas', { idConsultas: consData }); // Passa as consultas para o template
+                    res.render('./homeMedico/listConsultasAtivas', { idConsultas: consData }); 
                 } else {
                     console.log("Consultas não encontradas");
                     res.send("Consultas não encontradas");
@@ -280,13 +280,17 @@ class CON_Cons{
     selectAlterarConsulta(){
         return function (req, res){
             const consDAO= new consultorioDAO(bd)
-            const idConsulta= req.session.user.idConsulta
+            const idConsulta= req.params.idConsulta
+            console.log("idConsulta:", idConsulta);
             consDAO.select_AltConsulta(idConsulta)
             .then((consData) =>{
                 if (consData) {
+                    req.session.user= { idConsulta: consData.idConsulta, idPaciente: consData.idPaciente, idMedico: consData.idMedico, dataConsulta: consData.dataConsulta, horaInicio: consData.horaInicio, tipoConsulta: consData.tipoConsulta, ativo: consData.ativo }
                     console.log("Abrindo página de consultas ativas...")
-                    console.log(consData)
-                    res.render('./homeMedico/formStatusConsulta', { idConsultas: consData }); // Passa as consultas para o template
+                    console.log(req.session.user)
+                    res.render('./homeMedico/formStatusConsulta', { consulta: consData }); 
+                    console.log("idConsulta:", idConsulta);
+
                 } else {
                     console.log("Consulta não encontrada");
                     res.send("Consulta não encontrada");

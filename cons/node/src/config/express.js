@@ -20,6 +20,7 @@ app.use(
       secret: 'BD23532',
       resave: false,
       saveUninitialized: true,
+      cookie: { secure: false }
     })
   );
 
