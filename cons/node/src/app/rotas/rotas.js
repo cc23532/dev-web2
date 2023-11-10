@@ -114,6 +114,8 @@ const consController= new consultorioController()
 
  app.get("/alterarStatusConsulta/:idConsulta", consController.selectAlterarConsulta());
 
+ app.post("/alteraConsulta", consController.alteraDadosConsulta());
+
   app.get('/debug-session', (req, res) => {
     console.log(req.session);
     res.send('Verifique o console para informações da sessão');

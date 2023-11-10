@@ -205,20 +205,37 @@ class DAO_Cons{
 
     select_AltConsulta(idConsulta){
       return new Promise((resolve, reject) => {
-        const sql= 'select * from cons_consulta where idConsulta=?'
+        const sql= 'select idConsulta, dataConsulta, horaInicio, tipoConsulta, ativo from cons_consulta where idConsulta=?'
         this._bd.query(sql, [idConsulta], (erro, recordset) =>{
           if (erro) {
             console.log(erro);
             return reject("Falha ao selecionar Consulta...");
           }
-          resolve(recordset);
+          console.log('Resultado da consulta:', recordset);
+          if (recordset.length >= 1) {
+            resolve({idConsulta: recordset[0].idConsulta, idPaciente: recordset[0].idPaciente, idMedico: recordset[0].idMedico, dataConsulta: recordset[0].dataConsulta, horaInicio: recordset[0].horaInicio, tipoConsulta: recordset[0].tipoConsulta, ativo: recordset[0].ativo })
+          } else {
+            reject("Médico não encontrado");
+          }        
         })
       })
     }
 
-    updateConsulta(idConsulta){
+    updateConsulta(observacoes, horaFim, ativo, idConsulta){
       return new Promise((resolve, reject) =>{
-        const sql= `update cons_consulta`
+        const sql= `update cons_consulta
+                    set observacoes=?, horaFim=?, ativo=?
+                    where idConsulta=?`
+        this._bd.query(sql, [observacoes, horaFim, ativo, idConsulta], (erro, results)=>{
+          if(erro){
+            console.log(erro)
+            return reject ("Não foi possível alterar a senha")
+          }
+          if(results.affectedRows===0){
+            return reject("Nenhum registro foi atualizado")
+          }
+          resolve(results);
+        })
       })
     }
 }

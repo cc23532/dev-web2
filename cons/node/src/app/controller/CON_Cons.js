@@ -285,7 +285,7 @@ class CON_Cons{
             consDAO.select_AltConsulta(idConsulta)
             .then((consData) =>{
                 if (consData) {
-                    req.session.user= { idConsulta: consData.idConsulta, idPaciente: consData.idPaciente, idMedico: consData.idMedico, dataConsulta: consData.dataConsulta, horaInicio: consData.horaInicio, tipoConsulta: consData.tipoConsulta, ativo: consData.ativo }
+                    req.session.user= { idConsulta: consData.idConsulta, dataConsulta: consData.dataConsulta, horaInicio: consData.horaInicio, tipoConsulta: consData.tipoConsulta, ativo: consData.ativo }
                     console.log("Abrindo página de consultas ativas...")
                     console.log(req.session.user)
                     res.render('./homeMedico/formStatusConsulta', { consulta: consData }); 
@@ -300,6 +300,31 @@ class CON_Cons{
             }
         }
     
+        alteraDadosConsulta(){
+            return function (req, res){
+                const consDAO= new consultorioDAO(bd)
+                const observacoes= req.body.observacoes
+                const horaFim= req.body.horaFim
+                const ativo= req.body.ativo
+                const idConsulta= req.body.idConsulta
+                consDAO.updateConsulta(observacoes, horaFim, ativo, idConsulta)
+                .then((results) => {
+                    console.log(`Dados Alterados com Sucesso!${results.affectedRows} Registro(s) atualizado(s)!`)
+                    res.writeHead(200, {'Content-Type':'text/html'});
+                    res.write('<html><body>');
+                    res.write(`Dados Alterados com Sucesso!${results.affectedRows} Registro(s) atualizado(s)!`);
+                    res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                    res.end ('</body></html>');
+                })
+                .catch((erro) => {
+                    console.log(erro)
+                    res.writeHead(200, {'Content-Type':'text/html'});
+                    res.write('<html><body>');
+                    res.write('<p>Nao foi possivel alterar os dados: '+ erro +'</p>');
+                    res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                    res.end ('</body></html>');            
+                })            }
+        }
 }
 
 

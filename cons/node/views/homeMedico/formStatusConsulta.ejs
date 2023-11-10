@@ -5,24 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar Status de Consulta</title>
 
-    <link rel="stylesheet" href="./arquivos/style.css" type="text/css">
+    <link rel="stylesheet" href="../arquivos/style.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
         <h2>Formulário para Médico</h2>
-        <form method="post" action="/inclusaoNovoMedico">
+        <form method="post" action="/alteraConsulta">
             <div class="form-group col-md-4">
                 <label for="idConsulta">idConsulta:</label>
-                <input type="text" class="form-control" id="idConsulta" name="idConsulta" required value="<%= consulta.idConsulta %>">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="idPaciente">idPaciente:</label>
-                <input type="text" class="form-control" id="idPaciente" name="idPaciente" required value="<%= consulta.idPaciente %>">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="idMedico">idMedico:</label>
-                <input type="text" class="form-control" id="idMedico" name="idMedico" required value="<%= consulta.idMedico %>">
+                <input type="text" class="form-control" id="idConsulta" name="idConsulta" required value="<%= consulta.idConsulta %>" readonly>
             </div>
             <div class="form-group col-md-4">
                 <label for="observacoes">Observações:</label>
@@ -30,24 +22,23 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="dataConsulta">Data de Consulta:</label>
-                <input type="date" class="form-control" id="dataConsulta" name="dataConsulta" required value="<%= consulta.dataConsulta %>">
+                <input type="text" class="form-control" id="dataConsulta" name="dataConsulta" required value="<%= consulta.dataConsulta %>" readonly>
             </div>
             <div class="form-group col-md-4">
                 <label for="horaInicio">Horário de Início:</label>
-                <input type="time" class="form-control" id="horaInicio" name="horaInicio" required value="<%= consulta.horaInicio %>">
+                <input type="time" class="form-control" id="horaInicio" name="horaInicio" required value="<%= consulta.horaInicio %>" readonly>
             </div>
             <div class="form-group col-md-4">
                 <label for="horaFim">Horário de Encerramento:</label>
                 <input type="time" class="form-control" id="horaFim" name="horaFim" required>
             </div>      
-            <div class="form-group">
-                <select class="form-select" id="tipoConsulta" name="tipoConsulta" aria-label="Floating label select example">
-                    <option selected><%= consulta.tipoConsulta %></option>
-                </select>
+            <div class="form-group col-md-4">
+                <label for="tipoConsulta">Tipo de Consulta:</label>
+                <input type="text" class="form-control" id="tipoConsulta" name="tipoConsulta" required value="<%= consulta.tipoConsulta %>" readonly>
             </div>
             <div class="form-group">
                 <select class="form-select" id="ativo" name="ativo" aria-label="Floating label select example">
-                    <option selected><%= consulta.ativo %></option>
+                    <option selected>Status de consulta</option>
                     <option value="Finalizada">Finalizada</option>
                     <option value="Cancelada">Cancelada</option>
                 </select>
