@@ -36,9 +36,12 @@ class CON_Cons{
                 }
             })
             .catch((erro) => {
-                console.log(erro);
-                res.send("Falha ao efetuar login");
-            });
+                console.log(erro)
+                res.writeHead(200, {'Content-Type':'text/html'});
+                res.write('<html><body>');
+                res.write('<p>'+ erro +'</p>');
+                res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                res.end ('</body></html>');                        });
         }
     }
     
@@ -323,9 +326,22 @@ class CON_Cons{
                     res.write('<p>Nao foi possivel alterar os dados: '+ erro +'</p>');
                     res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
                     res.end ('</body></html>');            
-                })            }
+                })
+            }
         }
+
+        listagemPacientes() 
+        {
+          return function(req,res) {
+              const consDAO = new consultorioDAO(bd);
+              consDAO.selectPacientes()
+                .then((resultados) => {
+                   console.log(resultados);
+                   res.render('./homeMedico/listagemPacientes', { Pacientes: resultados});
+                })
+                .catch(erro => console.log(erro));
+          }
+        };
+        
 }
-
-
 module.exports= CON_Cons;

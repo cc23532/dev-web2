@@ -116,9 +116,6 @@ const consController= new consultorioController()
 
  app.post("/alteraConsulta", consController.alteraDadosConsulta());
 
-  app.get('/debug-session', (req, res) => {
-    console.log(req.session);
-    res.send('Verifique o console para informações da sessão');
-  });
+ app.get("/listagemPacientes", consController.listagemPacientes());
 
 }

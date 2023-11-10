@@ -1,0 +1,26 @@
+README_10-11-23
+
+	- ATUALIZAÇÕES:
+		- Script de criação de tabelas ATUALIZADO;
+		-  MER ATUALIZADO;
+
+	- Para iniciar o programa, utilizar localhost:3000/login;
+
+	- Ao fazer o registro, selecione o tipoDeUsuario no email como MÉDICO para ter acesso às funções principais
+		- Se fizer login como paciente, será redirecionado para uma página em construção;
+
+	- Se de repente o nome exibido na /homeMedico sumir, terá que fazer login novamente pois os dados de sessão foram perdidos
+		- Isso acontece principalmente se der F5 após consultar a listagem de consultas ativas ou listagem de pacientes;
+		- Se utilizar Alt + (Seta p/ Esquerda) para voltar às páginas a chance disso acontecer é menor;
+	
+	-Funcionalidades Disponíveis na página de Login:
+		- Registro de Email;
+		- Registro de Médico;
+		- Registro de Paciente;
+		- Redefinição de Senha do email;
+
+	- Funcionalidades Disponíveis para login em MÉDICO:
+		- Consultas > Consultas Ativas > Alterar;
+		- Consultas > Agendar Nova Consulta (SEM ENVIO DE EMAIL);
+		- Pacientes > Listagem de Pacientes;
+		- Dados Cadastrais > Alterar Dados;

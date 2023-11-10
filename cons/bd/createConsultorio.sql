@@ -1,3 +1,10 @@
+create table cons_email(
+	email varchar(30) not null,
+    senha varchar(8) not null,
+	tipoDeUsuario char(1) not null,
+	primary key (email)
+)
+
 create table Cons_Medico
 (
 	idMedico int AUTO_INCREMENT primary key not null,
@@ -9,41 +16,38 @@ create table Cons_Medico
     FOREIGN key (email) REFERENCES cons_email (email)
 )
 
-create table cons_email(
-	email varchar(30) not null,
-    senha varchar(8) not null,
-	tipoDeUsuario char(1) not null,
-	primary key (email)
-)
-
 create table Cons_Paciente
 (
-	idPaciente int identity primary key not null,
+	idPaciente int AUTO_INCREMENT primary key not null,
 	nomePaciente varchar(20) not null,
 	sobrenomePac varchar(30) not null,
-	CPF char(11) not null,
+	CPF varchar(11) not null unique,
 	telefone varchar(20) not null,
 	nascimento date not null,
-    email varchar(30) not null foreign key references cons_email (email)
-	
+    email varchar(30) not null,
+	FOREIGN key (email) REFERENCES cons_email (email)
 	)
 
 create table Cons_Consulta
 (
-	idConsulta int identity primary key not null,
-	idMedico int not null foreign key references cons_Medico(idMedico),
-	idPaciente int not null foreign key references cons_Paciente(idPaciente),
-	dataConsulta datetime not null,
-	horaInicio datetime not null,
-	horaFim datetime not null,
-	observacoes ntext,
+	idConsulta int AUTO_INCREMENT primary key not null,
+	idMedico int not null,
+	idPaciente int not null,
+	dataConsulta date not null,
+	horaInicio time not null,
+	horaFim time null,
+	observacoes text null,
 	tipoConsulta varchar(30) not null,
-	ativo bit not null
+	ativo varchar(15) not null,
+	foreign key (idPaciente) references cons_Paciente(idPaciente),
+	foreign key (idMedico) references cons_Medico(idMedico)
 )
 
 create table cons_enviarEmail(
-	idEmail int identity primary key not null, 
-	email varchar (30) foreign key references cons_email(email) not null,
+	idEmail int AUTO_INCREMENT primary key not null, 
+	destinatario varchar (30) not null,
+	remetente varchar (30) not null,
 	assunto varchar (100) null,
-	texto ntext null
+	corpoEmail text null,
+	foreign key (email) references cons_email(email) 
 )

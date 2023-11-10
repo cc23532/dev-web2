@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../arquivos/styleHome.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Listagem de Pacientes</title>
+</head>
+<body>
+        <div class="col-md-9">
+            <div class="content" id="content">
+                <h2>Listagem de Pacientes</h2>
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>idPaciente</th>
+                            <th>Nome</th>
+                            <th>Sobrenome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Data de Nascimento</th>
+                            <th>Email</th>
+                            <th>ALTERAR</th>
+                            <th>REMOVER</th>
+                        </tr>
+                    </thead>
+                  
+                    <tbody>
+                        <% for (const paciente of Pacientes) { %>
+                            <tr>
+                            <td><%= paciente.idPaciente %></td>
+                            <td><%= paciente.nomePaciente %></td>
+                            <td><%= paciente.sobrenomePac %></td>
+                            <td><%= paciente.CPF %></td>
+                            <td><%= paciente.telefone %></td>
+                            <td><%= paciente.nascimento %></td>
+                            <td><%= paciente.email %></td>
+                            <td><a href="/alterarDadosPaciente/<%= paciente.idPaciente %>">Alterar Dados</a></td>
+                            <td><a href="/deletePaciente/<%= paciente.idPaciente %>">Remover Usuário</a></td>
+
+                        </tr>
+                        <% } %>   
+                    </tbody>
+                  
+                </table>
+            </div>
+                    
+        </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

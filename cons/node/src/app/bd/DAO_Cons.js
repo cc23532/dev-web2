@@ -238,6 +238,21 @@ class DAO_Cons{
         })
       })
     }
+
+    selectPacientes(){
+      return new Promise((resolve, reject) => {
+          const sql = 'SELECT * FROM cons_paciente ORDER BY idPaciente';
+          this._bd.query(sql,function(erro,recordset) 
+          {
+            if (erro) 
+            {
+              console.log(erro);
+              return reject("Lista de Pacientes FALHOU!");
+            }
+            resolve(recordset);
+          });
+        });
+    }
 }
 
 
