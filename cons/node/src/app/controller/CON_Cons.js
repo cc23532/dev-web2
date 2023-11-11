@@ -342,6 +342,45 @@ class CON_Cons{
                 .catch(erro => console.log(erro));
           }
         };
+
+        deletarMedico(){
+            return function(req, res){
+                const consDAO= new consultorioDAO(bd)
+                const idMedico= req.session.user.idMedico
+                consDAO.deleteMedico(idMedico)
+                .then((medicoData) =>{
+                    if(medicoData){
+                        req.session.user= {idMedico: medicoData.idMedico}
+                        res.redirect("/confirmarExclusao")
+                    }
+                })
+                .catch(erro => console.log(erro))
+            }
+        }
+
+        deletarEmail(){
+            return function(req, res){
+                const consDAO= new consultorioDAO(bd)
+                const email= req.body.email
+                const senha= req.body.senha
+                consDAO.deleteMedico(email, senha)
+                .then((results) =>{
+                    consoleres.writeHead(200, {'Content-Type':'text/html'});
+                    res.write('<html><body>');
+                    res.write(`Dados Excluídos com Sucesso!${results.affectedRows} Registro(s) atualizado(s)!`);
+                    res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                    res.end ('</body></html>');
+                })
+                .catch((erro) => {
+                    console.log(erro)
+                    res.writeHead(200, {'Content-Type':'text/html'});
+                    res.write('<html><body>');
+                    res.write('<p>Nao foi possivel alterar os dados: '+ erro +'</p>');
+                    res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                    res.end ('</body></html>');            
+                })
+            }
+        }
         
 }
 module.exports= CON_Cons;

@@ -118,4 +118,12 @@ const consController= new consultorioController()
 
  app.get("/listagemPacientes", consController.listagemPacientes());
 
+ app.get("/deletarMedico/:idMedico", consController.deletarMedico());
+
+ app.get("/confirmarExclusao", (req,res) =>{
+  res.render("./homeMedico/DeleteEmailMed")
+  console.log("Confirme a exclusão de usuário")
+ })
+
+ app.post("/deleteEmail", consController.deletarEmail())
 }

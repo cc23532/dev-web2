@@ -253,8 +253,74 @@ class DAO_Cons{
           });
         });
     }
+
+    deleteMedico(idMedico){
+      return new Promise((resolve, reject) =>{
+        const desativaFK= 'SET foreign_key_checks = 0;'
+        const sql= `delete from cons_medico where idMedico=?;`
+        const ativaFK= 'SET foreign_key_checks = 1;'
+        this._bd.query(desativaFK, (erroSetCheck) => {
+          if (erroSetCheck) {
+            console.log(erroSetCheck);
+            return reject('Erro ao desativar verificação de chaves estrangeiras');
+          }
+
+        this._bd.query(sql, [idMedico], (erroDeleteMedico, resultDeleteMedico)=>{
+          if(erroDeleteMedico){
+            console.log(erroDeleteMedico)
+            return reject ("Nao foi possivel excluir usuario")
+          }
+          
+           this._bd.query(ativaFK, (erroSetActive) => {
+            if (erroSetActive) {
+              console.log(erroSetActive);
+              return reject('Erro ao reativar verificação de chaves estrangeiras');
+            }
+
+            if (resultDeleteMedico.affectedRows === 0) {
+              return reject('Nenhum registro foi excluído em cons_medico');
+            }
+
+            resolve('Registro excluído com sucesso');
+          });
+        });
+      });
+    });
+  };
+
+  deleteEmail(email, senha){
+    const desativaFK= 'SET foreign_key_checks = 0;'
+    const sql= `delete from cons_email where email=? and senha=?;`
+    const ativaFK= 'SET foreign_key_checks = 1;'
+    this._bd.query(desativaFK, (erroSetCheck) => {
+      if (erroSetCheck) {
+        console.log(erroSetCheck);
+        return reject('Erro ao desativar verificação de chaves estrangeiras');
+      }
+
+    this._bd.query(sql, [email, senha], (erroDeleteEmail, resultDeleteEmail)=>{
+      if(erro){
+        console.log(erroDeleteEmail)
+        return reject ("Nao foi possivel excluir usuario")
+      }
+      
+       this._bd.query(ativaFK, (erroSetActive) => {
+        if (erroSetActive) {
+          console.log(erroSetActive);
+          return reject('Erro ao reativar verificação de chaves estrangeiras');
+        }
+
+        if (resultDeleteEmail.affectedRows === 0) {
+          return reject('Nenhum registro foi excluído em cons_Email');
+        }
+
+        resolve('Registro excluído com sucesso');
+      });
+    });
+  });
+  }
 }
 
-
-
 module.exports= DAO_Cons;
+
+
