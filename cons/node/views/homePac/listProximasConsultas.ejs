@@ -5,35 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../arquivos/styleHome.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Listagem de Pacientes</title>
+    <title>Listagem de Consultas Ativas</title>
 </head>
 <body>
         <div class="col-md-9">
             <div class="content" id="content">
-                <h2>Listagem de Pacientes</h2>
+                <h2>Listagem de Consultas Ativas</h2>
                 <table class="table table-striped">
                     <thead class="table-dark">
                         <tr>
-                            <th>idPaciente</th>
-                            <th>Nome</th>
-                            <th>Sobrenome</th>
-                            <th>CPF</th>
-                            <th>Telefone</th>
-                            <th>Data de Nascimento</th>
-                            <th>Email</th>
+                            <th>SEU ID</th>
+                            <th>idMedico</th>
+                            <th>Data da Consulta</th>
+                            <th>Horário de Início</th>
+                            <th>Tipo de Consulta</th>
+                            <th>Status de Consulta</th>
+                            <th>ALTERAR</th>
                         </tr>
                     </thead>
                   
                     <tbody>
-                        <% for (const paciente of Pacientes) { %>
+                        <% for (const consulta of idConsultas) { %>
                             <tr>
-                            <td><%= paciente.idPaciente %></td>
-                            <td><%= paciente.nomePaciente %></td>
-                            <td><%= paciente.sobrenomePac %></td>
-                            <td><%= paciente.CPF %></td>
-                            <td><%= paciente.telefone %></td>
-                            <td><%= paciente.nascimento %></td>
-                            <td><%= paciente.email %></td>
+                            <td><%= consulta.idPaciente %></td>
+                            <td><%= consulta.idMedico %></td>
+                            <td><%= consulta.dataConsulta %></td>
+                            <td><%= consulta.horaInicio %></td>
+                            <td><%= consulta.tipoConsulta %></td>
+                            <td><%= consulta.ativo %></td>
+                            <td><a href="/cancelarConsulta/<%= consulta.idConsulta %>">Solicitar Cancelamento</a></td>
                         </tr>
                         <% } %>   
                     </tbody>

@@ -64,7 +64,21 @@ const consController= new consultorioController()
       }
   });
 
+  app.get("/homePac", (req, res) => {
+    if (req.session.user) {
+        const nomePaciente = req.session.user.nomePaciente;
+        const idPaciente = req.session.user.idPaciente;
+        console.log("Abrindo página principal...");
+        res.render('./homePac/homePac', { nomePaciente: nomePaciente, idPaciente: idPaciente });
+    } else {
+        res.send("Sessão de usuário não configurada corretamente.");
+    }
+});
+
   app.get("/selectMedico/:idMedico", consController.selectDadosMed());
+
+  app.get("/selectPaciente/:idPaciente", consController.selectDadosPac());
+
 
   app.get("/formAltDados", (req, res) =>{
      if (req.session.user) {
@@ -89,9 +103,37 @@ const consController= new consultorioController()
     }
   });
 
+  app.get("/formAltDadosPac", (req, res) =>{
+    if (req.session.user) {
+     const idPaciente = req.session.user.idPaciente;
+     const nomePaciente = req.session.user.nomePaciente;
+     const sobrenomePac = req.session.user.sobrenomePac;
+     const CPF = req.session.user.CPF;
+     const telefone = req.session.user.telefone;
+     const email = req.session.user.email;
+     console.log("Abrindo página de alteração de dados cadastrais...");
+     console.log(req.session.user);
+     res.render('./homePac/AltDadosPac', {
+       nomePaciente: nomePaciente,
+       sobrenomePac: sobrenomePac,
+       CPF: CPF,
+       telefone: telefone,
+       email: email,
+       idPaciente: idPaciente
+     });
+     } else {
+     res.send("Sessão de usuário não configurada corretamente.");
+   }
+ });
+
   app.post("/updateDadosMedico", consController.updateMedico());
 
+  app.post("/updateDadosPac", consController.updatePac());
+
   app.get("/selectMedicoNovaConsulta/:idMedico", consController.selectMedicoNovaConsulta());
+
+  app.get("/selectPacNovaConsulta/:idPaciente", consController.selectPacNovaConsulta());
+
 
   app.get("/novaConsulta", (req, res) =>{
     if (req.session.user) {
@@ -107,21 +149,48 @@ const consController= new consultorioController()
      res.send("Sessão de usuário não configurada corretamente.");
    }
  })
+ 
+  app.get("/SolicitarNovaConsulta", (req, res) =>{
+    if (req.session.user) {
+    const idPaciente = req.session.user.idPaciente;
+    const nomePaciente = req.session.user.nomePaciente;
+    console.log("Abrindo página de agendamento de consultas...");
+    console.log(req.session.user);
+    res.render('./homePac/solicitaConsulta', {
+      idPaciente: idPaciente,
+      nomePaciente: nomePaciente
+    });
+    } else {
+    res.send("Sessão de usuário não configurada corretamente.");
+    }
+  })
 
  app.post("/agendarConsulta", consController.agendaNovaConsulta());
 
+ app.post("/solicitarConsulta", consController.solicitaNovaConsulta());
+
  app.get("/selectConsultasAtivas/:idMedico", consController.listagemConsultasAtivas());
+
+ app.get("/selectProximasConsultas/:idPaciente", consController.listagemProximasConsultasPac());
 
  app.get("/alterarStatusConsulta/:idConsulta", consController.selectAlterarConsulta());
 
+ app.get("/cancelarConsulta/:idConsulta", consController.selectCancelarConsulta());
+
  app.post("/alteraConsulta", consController.alteraDadosConsulta());
+
+ app.post("/confirmaCancelarConsulta", consController.confirmaCancelarConsulta());
 
  app.get("/listagemPacientes", consController.listagemPacientes());
 
+ app.get("/listagemMedicos", consController.listagemMedicos());
+
  app.get("/deletarMedico/:idMedico", consController.deletarMedico());
 
+ app.get("/deletarPaciente/:idPaciente", consController.deletarPaciente());
+
  app.get("/confirmarExclusao", (req,res) =>{
-  res.render("./homeMedico/DeleteEmailMed")
+  res.render("./formCadastros/DeleteEmail")
   console.log("Confirme a exclusão de usuário")
  })
 

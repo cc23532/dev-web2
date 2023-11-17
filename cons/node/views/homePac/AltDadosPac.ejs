@@ -12,26 +12,26 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="user-profile">
-                    <img src="../arquivos/iconMed.png" alt="Foto de Perfil" class="profile-picture">
-                    <h4><%= nomeMedico %></h4>
+                    <img src="../arquivos/iconPac.png" alt="Foto de Perfil" class="profile-picture">
+                    <h4><%= nomePaciente %></h4>
                 </div>
                 <div class="menu">
                     <div class="menu-item">
                         <a>Consultas</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/selectConsultasAtivas/<%= idMedico %>">Consultas Ativas</a>
+                                <a href="/selectProximasConsultas/<%= idPaciente %>">Próximas Consultas</a>
                             </div>
                             <div class="submenu-item">
-                                <a href="/selectMedicoNovaConsulta/<%= idMedico %>">Agendar Consulta</a>
+                                <a href="/selectPacNovaConsulta/<%= idPaciente %>">Agendar Consulta</a>
                             </div>
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a>Pacientes</a>
+                        <a>Médicos</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/listagemPacientes">Listagem de Pacientes</a>
+                                <a href="/listagemMedicos">Listagem de Médicos</a>
                             </div>
                         </div>
                     </div>
@@ -39,10 +39,10 @@
                         <a>Dados Cadastrais</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/selectMedico/<%= idMedico %>">Alterar Dados</a>
+                                <a href="/selectPaciente/<%= idPaciente %>">Alterar Dados</a>
                             </div>
                             <div class="submenu-item">
-                                <a href="/deletarMedico/<%= idMedico %>">Excluir Conta</a>
+                                <a href="/deletarPaciente/<%= idPaciente %>">Excluir Conta</a>
                             </div>
                         </div>
                     </div>
@@ -51,30 +51,30 @@
             <div class="col-md-9">
                 <div class="content" id="content">
                     <h2>Alterar Dados</h2>
-                    <form method="post" action="/updateDadosMedico">
+                    <form method="post" action="/updateDadosPac">
                         <div class="form-group">
-                            <label for="nome">Nome:</label>
-                            <input type="text" class="form-control" id="nome" name="nome" required value="<%= nomeMedico %>">
+                            <label for="nomePaciente">Nome:</label>
+                            <input type="text" class="form-control" id="nomePaciente" name="nomePaciente" required value="<%= nomePaciente %>">
                         </div>
                         <div class="form-group">
-                            <label for="sobrenome">Sobrenome:</label>
-                            <input type="text" class="form-control" id="sobrenome" name="sobrenome" required value="<%= sobrenomeMed %>">
+                            <label for="sobrenomePac">Sobrenome:</label>
+                            <input type="text" class="form-control" id="sobrenomePac" name="sobrenomePac" required value="<%= sobrenomePac %>">
                         </div>
                         <div class="form-group">
-                            <label for="especialidade">Especialidade:</label>
-                            <input type="text" class="form-control" id="especialidade" name="especialidade" required value="<%= especialidade %>">
+                            <label for="CPF">CPF:</label>
+                            <input type="text" class="form-control" id="CPF" name="CPF" required value="<%= CPF %>">
                         </div>
                         <div class="form-group">
-                            <label for="crm">CRM:</label>
-                            <input type="text" class="form-control" id="crm" name="crm" required value="<%= crm %>">
+                            <label for="telefone">Telefone:</label>
+                            <input type="text" class="form-control" id="telefone" name="telefone" required value="<%= telefone %>">
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
                             <input type="email" class="form-control" id="email" name="email" required value="<%= email %>" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="idMedico">ID:</label>
-                            <input type="idMedico" class="form-control" id="idMedico" name="idMedico" required value="<%= idMedico %>" readonly>
+                            <label for="idPaciente">ID:</label>
+                            <input type="idPaciente" class="form-control" id="idPaciente" name="idPaciente" required value="<%= idPaciente %>" readonly>
                         </div>
                             <button type="submit" class="btn btn-primary ml-5">Salvar</button>
                         </div>

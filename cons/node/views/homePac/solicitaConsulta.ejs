@@ -5,33 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../arquivos/styleHome.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Nova Consulta</title>
+    <title>Solicitar Nova Consulta</title>
 </head>
 <body>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <div class="user-profile">
-                    <img src="../arquivos/iconMed.png" alt="Foto de Perfil" class="profile-picture">
-                    <h4><%= nomeMedico %></h4>
+                    <img src="../arquivos/iconPac.png" alt="Foto de Perfil" class="profile-picture">
+                    <h4><%= nomePaciente %></h4>
                 </div>
                 <div class="menu">
                     <div class="menu-item">
                         <a>Consultas</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/selectConsultasAtivas/<%= idMedico %>">Consultas Ativas</a>
+                                <a href="/selectProximasConsultas/<%= idPaciente %>">Próximas Consultas</a>
                             </div>
                             <div class="submenu-item">
-                                <a href="/selectMedicoNovaConsulta/<%= idMedico %>">Agendar Consulta</a>
+                                <a href="/selectPacNovaConsulta/<%= idPaciente %>">Agendar Consulta</a>
                             </div>
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a>Pacientes</a>
+                        <a>Médicos</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/listagemPacientes">Listagem de Pacientes</a>
+                                <a href="/listagemMedicos">Listagem de Médicos</a>
                             </div>
                         </div>
                     </div>
@@ -39,10 +39,10 @@
                         <a>Dados Cadastrais</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/selectMedico/<%= idMedico %>">Alterar Dados</a>
+                                <a href="/selectPaciente/<%= idPaciente %>">Alterar Dados</a>
                             </div>
                             <div class="submenu-item">
-                                <a href="/deletarMedico/<%= idMedico %>">Excluir Conta</a>
+                                <a href="/deletarPaciente/<%= idPaciente %>">Excluir Conta</a>
                             </div>
                         </div>
                     </div>
@@ -51,15 +51,15 @@
             <div class="col-md-9">
                 <div class="content" id="content">
                     <h2>Nova Consulta</h2>
-                    <form method="post" action="/agendarConsulta">
+                    <form method="post" action="/solicitarConsulta">
                         <div class="form-group">
                             <div class="form-group">
-                                <label for="idMedico"> Seu ID:</label>
-                                <input type="idMedico" class="form-control" id="idMedico" name="idMedico" required value="<%= idMedico%>" readonly>
+                                <label for="idPaciente">Seu ID:</label>
+                                <input type="text" class="form-control" id="idPaciente" name="idPaciente" required value="<%= idPaciente %>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="idPaciente">idPaciente:</label>
-                                <input type="text" class="form-control" id="idPaciente" name="idPaciente" required>
+                                <label for="idMedico">idMedico:</label>
+                                <input type="idMedico" class="form-control" id="idMedico" name="idMedico" required>
                             </div>
                             <div class="form-group">
                                 <label for="dataConsulta">Data da Consulta:</label>

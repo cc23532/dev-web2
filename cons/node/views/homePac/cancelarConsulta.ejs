@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelar Consulta</title>
+
+    <link rel="stylesheet" href="../arquivos/style.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Deseja Cancelar Sua Consulta?</h2>
+        <form method="post" action="/confirmaCancelarConsulta">
+            <div class="form-group col-md-4">
+                <label for="idConsulta">idConsulta:</label>
+                <input type="text" class="form-control" id="idConsulta" name="idConsulta" required value="<%= consulta.idConsulta %>" readonly>
+            </div>
+            <div class="form-group">
+                <select class="form-select" id="ativo" name="ativo" aria-label="Floating label select example">
+                    <option value="<%= consulta.ativo %>" selected><%= consulta.ativo %></option>
+                    <option value="Cancelado">Cancelar</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary ml-5">Salvar</button>
+            </div>
+        </form>        
+    </div>
+</body>
+</html>

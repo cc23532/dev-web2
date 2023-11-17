@@ -1,3 +1,18 @@
+README_17-11-23
+
+	- ATUALIZAÇÕES:
+		- Função EXCLUIR CONTA para HOME MEDICO já disponível;
+
+	-Novas funcionalidades:
+		-Home Paciente:
+			-Crie um registro como paciente e faça login para ter acesso à experiência;
+
+	- TODAS as FUNÇÕES em home PACIENTE já disponíveis;
+
+	- O QUE FALTA:
+		-Envio de email após agendamento de consulta
+
+__________________________________________________________________________________________________________________________________________
 README_10-11-23
 
 	- ATUALIZAÇÕES:

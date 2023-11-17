@@ -19,16 +19,32 @@ class CON_Cons{
                                 console.log(medicoData.idMedico, medicoData.nomeMedico);
                                 res.redirect('/homeMedico');
                             } else {
-                                console.log("Médico não encontrado");
-                                res.send("Médico não encontrado");
+                                console.log("Medico não encontrado");
+                                res.send("Medico não encontrado");
                             }
                         })
                         .catch((erro) => {
                             console.log(erro);
-                            res.send("Falha ao buscar os dados do médico");
+                            res.send("Falha ao buscar os dados do Medico");
                         });
-                    } else if (tipoDeUsuario === 'P') {
-                        res.send("ÁREA DE PACIENTE EM CONSTRUÇÃO");
+                    } 
+                    else if (tipoDeUsuario === 'P') {
+                        const emailPaciente = recordset[0].email;
+                        consDAO.select_idPaciente(emailPaciente)
+                        .then((PacienteData) => {
+                            if (PacienteData) {
+                                req.session.user = { idPaciente: PacienteData.idPaciente, nomePaciente: PacienteData.nomePaciente };
+                                console.log(PacienteData.idPaciente, PacienteData.nomePaciente);
+                                res.redirect('/homePac');
+                            } else {
+                                console.log("Paciente não encontrado");
+                                res.send("Paciente não encontrado");
+                            }
+                        })
+                        .catch((erro) => {
+                            console.log(erro);
+                            res.send("Falha ao buscar os dados do Paciente");
+                        });
                     }
                 } else {
                     console.log("Nenhum registro encontrado ou mais de um registro encontrado.");
@@ -183,6 +199,25 @@ class CON_Cons{
         }
     }
 
+    selectDadosPac(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idPaciente= req.session.user.idPaciente
+            consDAO.select_AltDadosPac(idPaciente)
+            .then((PacienteData) => {
+                if (PacienteData) {
+                    req.session.user = { idPaciente: PacienteData.idPaciente, nomePaciente: PacienteData.nomePaciente, sobrenomePac: PacienteData.sobrenomePac, CPF: PacienteData.CPF, telefone: PacienteData.telefone, email: PacienteData.email };
+                    console.log(PacienteData.idPaciente, PacienteData.nomePaciente,  PacienteData.sobrenomePac, PacienteData.CPF, PacienteData.telefone, PacienteData.email );
+                    res.redirect('/formAltDadosPac');
+                } else {
+                    console.log("Paciente não encontrado");
+                    res.send("Paciente não encontrado");
+                }
+            })
+            .catch(erro => console.log(erro));
+        }
+    }
+
     updateMedico(){
         return function (req,res){
             const consDAO= new consultorioDAO(bd)
@@ -221,6 +256,44 @@ class CON_Cons{
         }
     }   
 
+    updatePac(){
+        return function (req,res){
+            const consDAO= new consultorioDAO(bd)
+            const nomePaciente = req.body.nomePaciente;
+            const sobrenomePac = req.body.sobrenomePac;
+            const CPF = req.body.CPF;
+            const telefone = req.body.telefone;
+            const email = req.body.email;
+            const idPaciente = req.body.idPaciente;
+
+            console.log('Dados recebidos via POST:');
+            console.log('Nome:', nomePaciente);
+            console.log('Sobrenome:', sobrenomePac);
+            console.log('CPF:', CPF);
+            console.log('telefone:', telefone);
+            console.log('Email:', email);
+            console.log('ID do Paciente:', idPaciente);
+
+            consDAO.updateDadosPac(nomePaciente, sobrenomePac, CPF, telefone, email, idPaciente)
+            .then((results) => {
+                console.log(`Dados Alterados com Sucesso!${results.affectedRows} Registro(s) atualizado(s)!`)
+                res.writeHead(200, {'Content-Type':'text/html'});
+                res.write('<html><body>');
+                res.write(`Dados Alterados com Sucesso!${results.affectedRows} Registro(s) atualizado(s)!`);
+                res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                res.end ('</body></html>');
+            })
+            .catch((erro) => {
+                console.log(erro)
+                res.writeHead(200, {'Content-Type':'text/html'});
+                res.write('<html><body>');
+                res.write('<p>Nao foi possivel alterar os dados: '+ erro +'</p>');
+                res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                res.end ('</body></html>');            
+            })
+        }
+    }   
+
     selectMedicoNovaConsulta(){
         return function (req, res){
             const consDAO= new consultorioDAO(bd)
@@ -234,6 +307,25 @@ class CON_Cons{
                 } else {
                     console.log("Médico não encontrado");
                     res.send("Médico não encontrado");
+                }
+            })
+             .catch(erro => console.log(erro));
+        }
+    }
+
+    selectPacNovaConsulta(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idPaciente= req.session.user.idPaciente
+            consDAO.select_PacNovaConsulta(idPaciente)
+            .then((PacienteData) => {
+                if (PacienteData) {
+                    req.session.user = { idPaciente: PacienteData.idPaciente, nomePaciente: PacienteData.nomePaciente }
+                    console.log(PacienteData.idPaciente, PacienteData.nomePaciente);
+                    res.redirect('/SolicitarNovaConsulta');
+                } else {
+                    console.log("Paciente não encontrado");
+                    res.send("Paciente não encontrado");
                 }
             })
              .catch(erro => console.log(erro));
@@ -256,7 +348,28 @@ class CON_Cons{
             })
             .catch((erro) => {
                 console.log(erro);
-                res.send("Falha ao inserir o Paciente...")
+                res.send("Falha ao agendar nova consulta: "+ erro+ "...")
+            })
+        }
+    }
+
+    solicitaNovaConsulta(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd);
+            const { idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta } = req.body
+
+            consDAO.novaConsulta(idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta)
+            .then(() => {
+                console.log("Sucesso ao agendar consulta")
+                res.writeHead(200, {'Content-Type':'text/html'});
+                res.write('<html><body>');
+                res.write('<p>Consulta agendada!</p>');
+                res.write('<a href="/homePac" class="btn btn-primary">Ir para HOME</a>')
+                res.end ('</body></html>');
+            })
+            .catch((erro) => {
+                console.log(erro);
+                res.send("Falha ao agendar nova consulta: "+ erro+ "...")
             })
         }
     }
@@ -280,11 +393,29 @@ class CON_Cons{
         }
     }
 
+    listagemProximasConsultasPac(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idPaciente= req.session.user.idPaciente
+            consDAO.select_ProximasConsultas(idPaciente)
+            .then((consData) => {
+                if (consData) {
+                    console.log("Abrindo página de consultas ativas...")
+                    console.log(consData)
+                    res.render('./homePac/listProximasConsultas', { idConsultas: consData }); 
+                } else {
+                    console.log("Consultas não encontradas");
+                    res.send("Consultas não encontradas");
+                }
+            })
+            .catch(erro => console.log(erro));
+        }
+    }
+
     selectAlterarConsulta(){
         return function (req, res){
             const consDAO= new consultorioDAO(bd)
             const idConsulta= req.params.idConsulta
-            console.log("idConsulta:", idConsulta);
             consDAO.select_AltConsulta(idConsulta)
             .then((consData) =>{
                 if (consData) {
@@ -301,9 +432,31 @@ class CON_Cons{
             })
             .catch(erro => console.log(erro));
             }
-        }
+    }
     
-        alteraDadosConsulta(){
+    selectCancelarConsulta(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idConsulta= req.params.idConsulta
+            consDAO.select_AltConsulta(idConsulta)
+            .then((consData) =>{
+                if (consData) {
+                    req.session.user= { idConsulta: consData.idConsulta, ativo: consData.ativo }
+                    console.log("Abrindo página de consultas ativas...")
+                    console.log(req.session.user)
+                    res.render('./homePac/cancelarConsulta', { consulta: consData }); 
+                    console.log("idConsulta:", idConsulta);
+
+                } else {
+                    console.log("Consulta não encontrada");
+                    res.send("Consulta não encontrada");
+                }
+            })
+            .catch(erro => console.log(erro));
+            }
+    }
+
+    alteraDadosConsulta(){
             return function (req, res){
                 const consDAO= new consultorioDAO(bd)
                 const observacoes= req.body.observacoes
@@ -328,10 +481,35 @@ class CON_Cons{
                     res.end ('</body></html>');            
                 })
             }
-        }
+    }
 
-        listagemPacientes() 
-        {
+    confirmaCancelarConsulta(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const ativo= req.body.ativo
+            const idConsulta= req.body.idConsulta
+            consDAO.updateCancelarConsulta(ativo, idConsulta)
+            .then((results) => {
+                console.log(`Dados Alterados com Sucesso!${results.affectedRows} Registro(s) atualizado(s)!`)
+                res.writeHead(200, {'Content-Type':'text/html'});
+                res.write('<html><body>');
+                res.write(`Dados Alterados com Sucesso!${results.affectedRows} Registro(s) atualizado(s)!`);
+                res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                res.end ('</body></html>');
+            })
+            .catch((erro) => {
+                console.log(erro)
+                res.writeHead(200, {'Content-Type':'text/html'});
+                res.write('<html><body>');
+                res.write('<p>Nao foi possivel alterar os dados: '+ erro +'</p>');
+                res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                res.end ('</body></html>');            
+            })
+        }
+    }
+
+    listagemPacientes() 
+    {
           return function(req,res) {
               const consDAO = new consultorioDAO(bd);
               consDAO.selectPacientes()
@@ -341,9 +519,22 @@ class CON_Cons{
                 })
                 .catch(erro => console.log(erro));
           }
-        };
+    };
 
-        deletarMedico(){
+    listagemMedicos() 
+    {
+          return function(req,res) {
+              const consDAO = new consultorioDAO(bd);
+              consDAO.selectMedicos()
+                .then((resultados) => {
+                   console.log(resultados);
+                   res.render('./homePac/listagemMedicos', { Medicos: resultados});
+                })
+                .catch(erro => console.log(erro));
+          }
+    };
+
+    deletarMedico(){
             return function(req, res){
                 const consDAO= new consultorioDAO(bd)
                 const idMedico= req.session.user.idMedico
@@ -356,18 +547,33 @@ class CON_Cons{
                 })
                 .catch(erro => console.log(erro))
             }
-        }
+    }
 
-        deletarEmail(){
+    deletarPaciente(){
+        return function(req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idPaciente= req.session.user.idPaciente
+            consDAO.deletePaciente(idPaciente)
+            .then((PacienteData) =>{
+                if(PacienteData){
+                    req.session.user= {idPaciente: PacienteData.idPaciente}
+                    res.redirect("/confirmarExclusao")
+                }
+            })
+            .catch(erro => console.log(erro))
+        }
+}
+
+    deletarEmail(){
             return function(req, res){
                 const consDAO= new consultorioDAO(bd)
                 const email= req.body.email
                 const senha= req.body.senha
-                consDAO.deleteMedico(email, senha)
+                consDAO.deleteEmail(email, senha)
                 .then((results) =>{
-                    consoleres.writeHead(200, {'Content-Type':'text/html'});
+                    res.writeHead(200, {'Content-Type':'text/html'});
                     res.write('<html><body>');
-                    res.write(`Dados Excluídos com Sucesso!${results.affectedRows} Registro(s) atualizado(s)!`);
+                    res.write(`Dados Excluidos com Sucesso!`);
                     res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
                     res.end ('</body></html>');
                 })
@@ -380,7 +586,7 @@ class CON_Cons{
                     res.end ('</body></html>');            
                 })
             }
-        }
+    }
         
 }
 module.exports= CON_Cons;
