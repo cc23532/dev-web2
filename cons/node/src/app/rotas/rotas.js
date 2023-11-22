@@ -195,4 +195,18 @@ const consController= new consultorioController()
  })
 
  app.post("/deleteEmail", consController.deletarEmail())
+
+ app.post("/enviarEmail", consController.enviaEmail())
+
+ app.get("/med_cxEntrada/:idMedico", consController.cxEntradaMed());
+
+ app.get("/med_enviados/:idMedico", consController.enviadosMed());
+
+ app.get("/pac_cxEntrada/:idPaciente", consController.cxEntradaPac());
+
+ app.get("/pac_enviados/:idPaciente", consController.enviadosPac());
+
+ app.get("/exibicao/:idEmail", consController.exibeEmail());
+
+
 }

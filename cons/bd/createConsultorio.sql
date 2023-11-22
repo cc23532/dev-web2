@@ -48,6 +48,5 @@ create table cons_enviarEmail(
 	destinatario varchar (30) not null,
 	remetente varchar (30) not null,
 	assunto varchar (100) null,
-	corpoEmail text null,
-	foreign key (email) references cons_email(email) 
+	corpoEmail text null
 )

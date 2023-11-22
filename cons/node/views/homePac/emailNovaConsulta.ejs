@@ -12,18 +12,18 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="user-profile">
-                    <img src="../arquivos/iconMed.png" alt="Foto de Perfil" class="profile-picture">
-                    <h4><%= dadosConsulta.nomeMedico %></h4>
+                    <img src="../arquivos/iconPac.png" alt="Foto de Perfil" class="profile-picture">
+                    <h4><%= dadosConsulta.nomePaciente %></h4>
                 </div>
                 <div class="menu">
                     <div class="menu-item">
                         <a>Email</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/med_cxEntrada/<%= idMedico %>">Caixa de Entrada</a>
+                                <a href="/pac_cxEntrada/<%= dadosConsulta.idPaciente %>">Caixa de Entrada</a>
                             </div>
                             <div class="submenu-item">
-                                <a href="/med_enviados/<%= idMedico %>">Enviados</a>
+                                <a href="/pac_enviados/<%= dadosConsulta.idPaciente %>">Enviados</a>
                             </div>
                         </div>
                     </div>
@@ -31,18 +31,18 @@
                         <a>Consultas</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/selectConsultasAtivas/<%= dadosConsulta.idMedico %>">Consultas Ativas</a>
+                                <a href="/selectProximasConsultas/<%= dadosConsulta.idPaciente %>">Próximas Consultas</a>
                             </div>
                             <div class="submenu-item">
-                                <a href="/selectMedicoNovaConsulta/<%= dadosConsulta.idMedico %>">Agendar Consulta</a>
+                                <a href="/selectPacNovaConsulta/<%= dadosConsulta.idPaciente %>">Agendar Consulta</a>
                             </div>
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a>Pacientes</a>
+                        <a>Médicos</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/listagemPacientes">Listagem de Pacientes</a>
+                                <a href="/listagemMedicos">Listagem de Médicos</a>
                             </div>
                         </div>
                     </div>
@@ -50,10 +50,10 @@
                         <a>Dados Cadastrais</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/selectMedico/<%= dadosConsulta.idMedico %>">Alterar Dados</a>
+                                <a href="/selectPaciente/<%= dadosConsulta.idPaciente %>">Alterar Dados</a>
                             </div>
                             <div class="submenu-item">
-                                <a href="/deletarMedico/<%= dadosConsulta.idMedico %>">Excluir Conta</a>
+                                <a href="/deletarPaciente/<%= dadosConsulta.idPaciente %>">Excluir Conta</a>
                             </div>
                         </div>
                     </div>
@@ -66,11 +66,11 @@
                         <div class="form-group">
                             <div class="form-group">
                                 <label for="remetente"> De:</label>
-                                <input type="email" class="form-control" id="remetente" name="remetente" required value="<%= dadosConsulta.emailMed %>" readonly>
+                                <input type="email" class="form-control" id="remetente" name="remetente" required value="<%= dadosConsulta.emailPac %>" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="destinatario">Para:</label>
-                                <input type="text" class="form-control" id="destinatario" name="destinatario" required value="<%= dadosConsulta.emailPac %>" readonly>
+                                <input type="text" class="form-control" id="destinatario" name="destinatario" required value="<%= dadosConsulta.emailMed %>" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="assunto">Assunto:</label>

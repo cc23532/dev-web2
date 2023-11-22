@@ -236,18 +236,76 @@ class DAO_Cons{
     }
 
     novaConsulta(idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta){
-      return new Promise((resolve, reject) =>{
-        const sql= "insert into cons_consulta (idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta, ativo) values (?, ?, ?, ?, ?, 'Agendado')"
-        this._bd.query(sql, [idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta], (erro, recordset) =>{
-          if (erro) {
-            console.log(erro);
-            return reject("Falha no Agendamento de Consulta...");
+      return new Promise((resolve, reject) => {
+        const sql = "insert into cons_consulta (idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta, ativo) values (?, ?, ?, ?, ?, 'Agendado')";
+        const emailPacQuery = "select idPaciente, nomePaciente, email from cons_Paciente where idPaciente=?";
+        const emailMedQuery = "select idMedico, nomeMedico, especialidade, email from cons_Medico where idMedico=?";
+    
+        this._bd.beginTransaction((transactionError) => {
+          if (transactionError) {
+            console.log(transactionError);
+            return reject("Falha na transação ao agendar a consulta...");
           }
-          resolve(recordset);
-        })
-      })
-    }
+    
+          this._bd.query(sql, [idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta], (insertError, insertResult) => {
+            if (insertError) {
+              console.log(insertError);
+              return this._bd.rollback(() => {
+                reject("Falha no Agendamento de Consulta...");
+              });
+            }
+    
+            const insertedData = {
+              idMedico,
+              idPaciente,
+              dataConsulta,
+              horaInicio,
+              tipoConsulta,
+              ativo: 'Agendado',
+            };
+    
+            this._bd.query(emailPacQuery, [idPaciente], (emailPacError, emailPacResult) => {
+              if (emailPacError) {
+                console.log(emailPacError);
+                return this._bd.rollback(() => {
+                  reject("Falha ao obter o email do Paciente...");
+                });
+              } 
 
+              insertedData.emailPac = emailPacResult[0] ? emailPacResult[0].email : null;
+              insertedData.idPaciente = emailPacResult[0] ? emailPacResult[0].idPaciente : null;
+              insertedData.nomePaciente = emailPacResult[0] ? emailPacResult[0].nomePaciente : null;
+        
+              this._bd.query(emailMedQuery, [idMedico], (emailMedError, emailMedResult) => {
+                if (emailMedError) {
+                  console.log(emailMedError);
+                  return this._bd.rollback(() => {
+                    reject("Falha ao obter o email do Médico...");
+                  });
+                }
+
+                insertedData.emailMed = emailMedResult[0] ? emailMedResult[0].email : null;
+                insertedData.idMedico = emailMedResult[0] ? emailMedResult[0].idMedico : null;
+                insertedData.nomeMedico = emailMedResult[0] ? emailMedResult[0].nomeMedico : null;
+        
+                this._bd.commit((commitError) => {
+                  if (commitError) {
+                    console.log(commitError);
+                    return this._bd.rollback(() => {
+                      reject("Falha na confirmação da transação...");
+                    });
+                  }
+    
+                  // Resolve a Promise com os dados inseridos e os emails
+                  resolve(insertedData);
+                });
+              });
+            });
+          });
+        });
+      });
+    }
+    
     select_ConsultaAtiva(idMedico){
       return new Promise((resolve, reject) => {
         const sql= "select idConsulta, idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta, ativo  from cons_consulta where idMedico=? and ativo='Agendado'"
@@ -493,7 +551,138 @@ class DAO_Cons{
       });
     });
   }
-  
+ 
+  enviarEmail(remetente, destinatario, assunto, corpoEmail){
+    return new Promise((resolve, reject) => {
+      const sql= `insert into cons_enviarEmail (remetente, destinatario, assunto, corpoEmail) values (?, ?, ?, ?)`
+      this._bd.query(sql, [remetente, destinatario, assunto, corpoEmail], (erro, recordset) =>{
+        if (erro) {
+          console.log(erro);
+          return reject("Falha no envio do Email");
+        }
+        resolve(recordset);
+      })
+    })
+  }
+
+  caixaDeEntradaMed(idMedico){
+    return new Promise((resolve, reject) => {
+      const sql= `SELECT idEmail, remetente, assunto
+                  FROM cons_enviarEmail
+                  WHERE destinatario = (SELECT email FROM Cons_Medico WHERE idMedico = ?);`
+      this._bd.query(sql, [idMedico], (erro, recordset) =>{
+        if (erro) {
+          console.log(erro);
+          return reject("Dados não correspondem com os do BD");
+        }
+        
+        const cxEntrada = recordset.map((row) => ({
+          idEmail: row.idEmail,
+          remetente: row.remetente,
+          assunto: row.assunto,
+        }));
+
+        if (cxEntrada.length > 0) {
+          resolve(cxEntrada); 
+        } else {
+          resolve([]);
+        }
+      })
+    })
+  }
+
+  emailsEnviadosMed(idMedico){
+    return new Promise((resolve, reject) => {
+      const sql= `SELECT idEmail, destinatario, assunto
+                  FROM cons_enviarEmail
+                  WHERE remetente = (SELECT email FROM Cons_Medico WHERE idMedico = ?);`
+      this._bd.query(sql, [idMedico], (erro, recordset) =>{
+        if (erro) {
+          console.log(erro);
+          return reject("Dados não correspondem com os do BD");
+        }
+        
+        const enviados = recordset.map((row) => ({
+          idEmail: row.idEmail,
+          destinatario: row.destinatario,
+          assunto: row.assunto,
+        }));
+
+        if (enviados.length > 0) {
+          resolve(enviados); 
+        } else {
+          resolve([]);
+        }
+      })
+    })
+  }
+
+  caixaDeEntradaPac(idPaciente){
+    return new Promise((resolve, reject) => {
+      const sql= `SELECT idEmail, remetente, assunto
+                  FROM cons_enviarEmail
+                  WHERE destinatario = (SELECT email FROM Cons_Paciente WHERE idPaciente = ?);`
+      this._bd.query(sql, [idPaciente], (erro, recordset) =>{
+        if (erro) {
+          console.log(erro);
+          return reject("Dados não correspondem com os do BD");
+        }
+        
+        const cxEntrada = recordset.map((row) => ({
+          idEmail: row.idEmail,
+          remetente: row.remetente,
+          assunto: row.assunto,
+        }));
+
+        if (cxEntrada.length > 0) {
+          resolve(cxEntrada); 
+        } else {
+          resolve([]);
+        }
+      })
+    })
+  }
+
+  emailsEnviadosPac(idPaciente){
+    return new Promise((resolve, reject) => {
+      const sql= `SELECT idEmail, destinatario, assunto
+                  FROM cons_enviarEmail
+                  WHERE remetente = (SELECT email FROM Cons_Paciente WHERE idPaciente = ?);`
+      this._bd.query(sql, [idPaciente], (erro, recordset) =>{
+        if (erro) {
+          console.log(erro);
+          return reject("Dados não correspondem com os do BD");
+        }
+        
+        const enviados = recordset.map((row) => ({
+          idEmail: row.idEmail,
+          destinatario: row.destinatario,
+          assunto: row.assunto,
+        }));
+
+        if (enviados.length > 0) {
+          resolve(enviados); 
+        } else {
+          resolve([]);
+        }
+      })
+    })
+  }
+
+  selectEmail(idEmail){
+    return new Promise((resolve, reject) => {
+      const sql = 'SELECT remetente, destinatario, assunto, corpoEmail FROM cons_enviarEmail where idEmail=?';
+      this._bd.query(sql, [idEmail], (erro,recordset) =>
+      {
+        if (erro) 
+        {
+          console.log(erro);
+          return reject("Exibição de Email FALHOU!");
+        }
+        resolve(recordset);
+      });
+    });
+  }
 }
 module.exports= DAO_Cons;
 

@@ -332,25 +332,23 @@ class CON_Cons{
         }
     }
 
-    agendaNovaConsulta(){
-        return function (req, res){
-            const consDAO= new consultorioDAO(bd);
-            const { idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta } = req.body
-
-            consDAO.novaConsulta(idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta)
-            .then(() => {
-                console.log("Sucesso ao agendar consulta")
-                res.writeHead(200, {'Content-Type':'text/html'});
-                res.write('<html><body>');
-                res.write('<p>Consulta agendada!</p>');
-                res.write('<a href="/homeMedico" class="btn btn-primary">Ir para HOME</a>')
-                res.end ('</body></html>');
+    agendaNovaConsulta() {
+        return function (req, res) {
+          const consDAO = new consultorioDAO(bd);
+          const { idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta } = req.body;
+      
+          consDAO
+            .novaConsulta(idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta)
+            .then((insertedData) => {
+                console.log("Sucesso ao agendar consulta");
+                console.log(insertedData);
+                res.render('./homeMedico/emailNovaConsulta', { dadosConsulta: insertedData }); 
             })
             .catch((erro) => {
-                console.log(erro);
-                res.send("Falha ao agendar nova consulta: "+ erro+ "...")
-            })
-        }
+              console.log(erro);
+              res.send("Falha ao agendar nova consulta: " + erro + "...");
+            });
+        };
     }
 
     solicitaNovaConsulta(){
@@ -359,17 +357,14 @@ class CON_Cons{
             const { idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta } = req.body
 
             consDAO.novaConsulta(idMedico, idPaciente, dataConsulta, horaInicio, tipoConsulta)
-            .then(() => {
-                console.log("Sucesso ao agendar consulta")
-                res.writeHead(200, {'Content-Type':'text/html'});
-                res.write('<html><body>');
-                res.write('<p>Consulta agendada!</p>');
-                res.write('<a href="/homePac" class="btn btn-primary">Ir para HOME</a>')
-                res.end ('</body></html>');
+            .then((insertedData) => {
+                console.log("Sucesso ao agendar consulta");
+                console.log(insertedData);
+                res.render('./homePac/emailNovaConsulta', { dadosConsulta: insertedData }); 
             })
             .catch((erro) => {
-                console.log(erro);
-                res.send("Falha ao agendar nova consulta: "+ erro+ "...")
+              console.log(erro);
+              res.send("Falha ao agendar nova consulta: " + erro + "...");
             })
         }
     }
@@ -588,5 +583,117 @@ class CON_Cons{
             }
     }
         
+    enviaEmail(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const { remetente, destinatario, assunto, corpoEmail }= req.body
+            consDAO.enviarEmail(remetente, destinatario, assunto, corpoEmail)
+            .then(() => {
+                console.log("Sucesso ao enviar email")
+                res.writeHead(200, {'Content-Type':'text/html'});
+                res.write('<html><body>');
+                res.write('<p>O email foi enviado com sucesso</p>');
+                res.write('<a href="/login" class="btn btn-primary">Ir para LOGIN</a>')
+                res.end ('</body></html>');
+            })
+            .catch((erro) => {
+                console.log(erro);
+                res.send("Falha ao enviar email...")
+            })
+
+        }
+    }
+
+    cxEntradaMed(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idMedico= req.session.user.idMedico
+            consDAO.caixaDeEntradaMed(idMedico)
+            .then((cxEntrada) => {
+                if (cxEntrada) {
+                    console.log("Abrindo caixa de entrada de emails...")
+                    console.log(cxEntrada)
+                    res.render('./homeMedico/cxEntrada', { cxEntrada: cxEntrada }); 
+                } else {
+                    console.log("Emails não encontrados");
+                    res.send("Emails não encontrados");
+                }
+            })
+            .catch(erro => console.log(erro));
+        }
+    }
+
+    enviadosMed(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idMedico= req.session.user.idMedico
+            consDAO.emailsEnviadosMed(idMedico)
+            .then((enviados) => {
+                if (enviados) {
+                    console.log("Abrindo emails enviados...")
+                    console.log(enviados)
+                    res.render('./homeMedico/enviados', { enviados: enviados }); 
+                } else {
+                    console.log("Emails não encontrados");
+                    res.send("Emails não encontrados");
+                }
+            })
+            .catch(erro => console.log(erro));
+        }
+    }
+
+    cxEntradaPac(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idPaciente= req.session.user.idPaciente
+            consDAO.caixaDeEntradaPac(idPaciente)
+            .then((cxEntrada) => {
+                if (cxEntrada) {
+                    console.log("Abrindo caixa de entrada de emails...")
+                    console.log(cxEntrada)
+                    res.render('./homePac/cxEntrada', { cxEntrada: cxEntrada }); 
+                } else {
+                    console.log("Emails não encontrados");
+                    res.send("Emails não encontrados");
+                }
+            })
+            .catch(erro => console.log(erro));
+        }
+    }
+
+    enviadosPac(){
+        return function (req, res){
+            const consDAO= new consultorioDAO(bd)
+            const idPaciente= req.session.user.idPaciente
+            consDAO.emailsEnviadosPac(idPaciente)
+            .then((enviados) => {
+                if (enviados) {
+                    console.log("Abrindo emails enviados...")
+                    console.log(enviados)
+                    res.render('./homePac/enviados', { enviados: enviados }); 
+                } else {
+                    console.log("Emails não encontrados");
+                    res.send("Emails não encontrados");
+                }
+            })
+            .catch(erro => console.log(erro));
+        }
+    }
+
+    exibeEmail(){
+        return function (req, res){
+          const consDAO= new consultorioDAO(bd)
+          const idEmail= req.params.idEmail
+          consDAO.selectEmail(idEmail)
+          .then((exibicao) =>{
+            console.log("Exibindo Email ...")
+            res.render('./homeMedico/exibicaoEmail', {exibicao: exibicao})
+          })
+          .catch((error) => {
+            console.error('Erro na obtenção de dados do servidor:', error);
+            res.status(500).json({ error: 'Erro na obtenção de dados do servidor' });
+          })
+        }
+      }
 }
 module.exports= CON_Cons;
