@@ -20,10 +20,10 @@
                         <a>Email</a>
                         <div class="submenu">
                             <div class="submenu-item">
-                                <a href="/med_cxEntrada/<%= idMedico %>">Caixa de Entrada</a>
+                                <a href="/med_cxEntrada/<%= dadosConsulta.idMedico %>">Caixa de Entrada</a>
                             </div>
                             <div class="submenu-item">
-                                <a href="/med_enviados/<%= idMedico %>">Enviados</a>
+                                <a href="/med_enviados/<%= dadosConsulta.idMedico %>">Enviados</a>
                             </div>
                         </div>
                     </div>
@@ -79,11 +79,11 @@
                             <div class="form-group">
                                 <label for="corpoEmail">Dados de Consulta:</label>
                                 <textarea cols="20" rows="6" class="form-control" id="corpoEmail" name="corpoEmail" required readonly>
-Medico: <%= dadosConsulta.nomeMedico %>, ID: <%= dadosConsulta.idMedico %>, <br>
-Paciente: <%= dadosConsulta.nomePaciente %>, ID: <%= dadosConsulta.idPaciente %>, <br>
-Data da Consulta: <%= dadosConsulta.dataConsulta %>, <br>
-Horário de Início: <%= dadosConsulta.horaInicio %>, <br>
-Tipo de Consulta: <%= dadosConsulta.tipoConsulta %>, <br>
+Medico: <%= dadosConsulta.nomeMedico %>, ID: <%= dadosConsulta.idMedico %>,
+Paciente: <%= dadosConsulta.nomePaciente %>, ID: <%= dadosConsulta.idPaciente %>,
+Data da Consulta: <%= dadosConsulta.dataConsulta %>,
+Horário de Início: <%= dadosConsulta.horaInicio %>,
+Tipo de Consulta: <%= dadosConsulta.tipoConsulta %>,
 Status: <%= dadosConsulta.ativo %>
                                 </textarea>
                             </div>
