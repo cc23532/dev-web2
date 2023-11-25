@@ -1,3 +1,18 @@
+README_Final
+
+	- ATUALIZAÇÕES:
+		- Acesso à Caixa de Entrada e de Emails Enviados para MÉDICOS e PACIENTES;
+
+	-Novas funcionalidades:
+		-Envio de Emails:
+			-MÉDICO: Ao agendar uma nova consulta, será redirecionado p/ uma página com os dados da consulta carregados no 				corpo do Email;
+			-PACIENTE: Ao solicitar uma nova consulta, será redirecionado p/ uma página com os dados da consulta carregados no 			corpo do Email;
+	
+	-TODAS as funções de MÉDICO e PACIENTE já disponíveis;
+
+	-Trabalho FINALIZADO;
+
+__________________________________________________________________________________________________________________________________________
 README_17-11-23
 
 	- ATUALIZAÇÕES:
